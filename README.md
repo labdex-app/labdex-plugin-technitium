@@ -1,6 +1,6 @@
 # Technitium DNS
 
-A [labdex](https://github.com/reykimedev/labdex) plugin. Keeps a Technitium zone in sync with the inventory, plus zone-wide records of your own (per-host records are on each host's DNS tab), and shows which records in the zone belong to a host.
+A [labdex](https://github.com/labdex-app/labdex) plugin. Keeps a Technitium zone in sync with the inventory, plus zone-wide records of your own (per-host records are on each host's DNS tab), and shows which records in the zone belong to a host.
 
 **Version** 1.4 · **Works with** labdex >=1.3,<2 · **Plugin id** `technitium`
 
