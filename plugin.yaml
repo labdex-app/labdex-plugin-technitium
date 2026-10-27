@@ -1,0 +1,35 @@
+id: technitium
+name: Technitium DNS
+kind: integration
+tags: [dns, discovery]
+provides: [discovery, dns]
+version: "1.4"
+labdex: ">=1.3,<2"
+description: Keeps a Technitium zone in sync with the inventory, plus zone-wide records of your own (per-host records are on each host's DNS tab), and shows which records in the zone belong to a host.
+settings:
+  - {key: url, label: URL, type: string, required: true, help: "e.g. https://dns.example.net:53443"}
+  - {key: token, label: API token, type: secret, required: true, help: Create a token for a user that may only edit this zone}
+  - {key: extra_zones, label: Extra zones to read, type: string, help: "Space separated, e.g. legacy.lan. Read for Import and the host panels, never written. Labdex's own zones (the domain and every network or host zone override) are synced automatically, each record into the closest zone that exists on the server."}
+  - {key: zone, label: "Zone (before 0.5.3)", type: string, help: "Old single-zone setting: read like an extra zone, and the base for custom record names. Leave empty."}
+  - {key: ttl, label: TTL (seconds), type: int, default: 300}
+  - {key: verify_tls, label: Verify TLS certificate, type: bool, default: true}
+  - {key: ca_file, label: CA bundle path, type: string}
+  - {key: split_horizon, label: Give public service names their own zone, type: bool, default: true, help: "A service marked public with a public name (photos.example.com) gets a zone of that exact name here, answering with the internal address; the rest of example.com still resolves outside"}
+  - {key: allow_delete, label: Delete records that left the inventory, type: bool, default: true, help: Only records labdex created (comment "labdex")}
+  - key: custom_records
+    label: Custom records
+    type: table
+    help: "Name relative to the inventory domain (@ = the domain itself, a trailing dot = absolute, in any zone on the server). MX/SRV values: '10 mail.example.net', '0 5 443 target.example.net'."
+    columns:
+      - {key: name, label: Name, type: string, required: true}
+      - {key: type, label: Type, type: select, options: [A, AAAA, CNAME, TXT, MX, SRV], required: true}
+      - {key: value, label: Value, type: string, required: true}
+host_settings:
+  - {key: skip_generated, label: Don't publish the generated records for this host, type: bool, default: false}
+host_view: true
+actions:
+  - {id: test, label: Test connection, mode: run}
+  - {id: sync_records, label: Sync records, mode: plan, schedulable: true}
+  - {id: import_records, label: Import records into Discovery, mode: run, schedulable: true, description: "A/AAAA records pointing at addresses that aren't in the inventory show up as unknown addresses, with the record's name"}
+hooks:
+  - {events: ["host.*", "network.*", "setting.*", "inventory.*", "hostmodule.*"], action: sync_records}
