@@ -1,5 +1,7 @@
 # Technitium DNS
 
+[![Release](https://github.com/labdex-app/labdex-plugin-technitium/actions/workflows/release.yml/badge.svg)](https://github.com/labdex-app/labdex-plugin-technitium/actions/workflows/release.yml) [![Buy Me a Coffee](https://img.shields.io/badge/buy%20me%20a%20coffee-bitsandbricks-7c3aed?logo=buymeacoffee&logoColor=white&labelColor=181b20)](https://buymeacoffee.com/bitsandbricks)
+
 A [labdex](https://github.com/labdex-app/labdex) plugin. Keeps a Technitium zone in sync with the inventory, plus zone-wide records of your own (per-host records are on each host's DNS tab), and shows which records in the zone belong to a host.
 
 **Version** 1.4 · **Works with** labdex >=1.3,<2 · **Plugin id** `technitium`
